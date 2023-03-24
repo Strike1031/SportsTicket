@@ -1,0 +1,18 @@
+.loading {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    background-color: #2c2c2ce6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loading span{
+    color: #fff;
+    font-size: 28px;
+}
+
+
+
