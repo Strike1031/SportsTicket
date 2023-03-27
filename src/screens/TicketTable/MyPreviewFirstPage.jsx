@@ -11,10 +11,34 @@ const MyPreviewFirstPage = ({ from, title, subTitle, gameTitle, startDate, ticke
             <h2>{title}</h2>
             <h4>{subTitle}</h4>
             {gameTitle != '' && <u>{gameTitle},{day == 0 ? "Sun" : day == 1 ? "Mon" : day == 2 ? "Tue" : day == 3 ? "Wed" : day == 4 ? "Thu" : day == 5 ? "Fri" : day == 6 ? "Sat" : ""}, {month == 0 ? "Jan" : month == 1 ? "Feb" : month == 2 ? "Mar" : month == 3 ? "Apr" : month == 4 ? "May" : month == 5 ? "Jun" : month == 6 ? "Jul" : month == 7 ? "Aug" : month == 8 ? "Sep" : month == 9 ? "Oct" : month == 10 ? "Nov" : month == 11 ? "Dec" : ""}&nbsp;{new Date(startDate).getDate()}</u>}
-            {ticketData.map((key, index) => <div key={index}>
-                <div style={{ justifyContent: "space-between", display: "flex" }}>
+            {ticketData.map((key, index) => (
+                index < 8 ? <div key={index}>
+                    <div style={{ justifyContent: "space-between", display: "flex" }}>
+                        <div>
+                            <span style={{ border: "solid 1px black" }}> {(index * 4 + 1) < 10 ? (index * 4 + 1 + '_') : (index * 4 + 1)}</span>
+                            &nbsp;{ticketData[index].leftTeam} {ticketData[index].leftFirstPercentage}
+                        </div>
+                        <div style={{ textAlign: "center" }}>
+                            {ticketData[index].time}
+                        </div>
+                        <div>
+                            {ticketData[index].rightTeam} {ticketData[index].rightFirstPercentage}
+                            &nbsp;<span style={{ border: "solid 1px black" }}> {(index * 4 + 2) < 10 ? (index * 4 + 2 + '_') : (index * 4 + 2)}</span>
+                        </div>
+                    </div>
+                    <div style={{ justifyContent: "space-between", display: "flex", marginBottom: "2px" }}>
+                        <div>
+                            <span style={{ border: "solid 1px black" }}> {(index * 4 + 3) < 10 ? (index * 4 + 3 + '_') : (index * 4 + 3)}</span>
+                            &nbsp;Over {ticketData[index].leftSecondPercentage}
+                        </div>
+                        <div>
+                            Under {ticketData[index].rightSecondPercentage}
+                            &nbsp;<span style={{ border: "solid 1px black" }}> {(index * 4 + 4) < 10 ? (index * 4 + 4 + '_') : (index * 4 + 4)}</span>
+                        </div>
+                    </div>
+                </div> : index == 8 ? gameTitle != '' && <div> <u>{gameTitle},{day == 0 ? "Sun" : day == 1 ? "Mon" : day == 2 ? "Tue" : day == 3 ? "Wed" : day == 4 ? "Thu" : day == 5 ? "Fri" : day == 6 ? "Sat" : ""}, {month == 0 ? "Jan" : month == 1 ? "Feb" : month == 2 ? "Mar" : month == 3 ? "Apr" : month == 4 ? "May" : month == 5 ? "Jun" : month == 6 ? "Jul" : month == 7 ? "Aug" : month == 8 ? "Sep" : month == 9 ? "Oct" : month == 10 ? "Nov" : month == 11 ? "Dec" : ""}&nbsp;{new Date(startDate).getDate()}</u> <div style={{ justifyContent: "space-between", display: "flex" }}>
                     <div>
-                        <span style={{ border: "solid 1px black" }}> {(index * 4 + 1) < 10 ? (index * 4 + 1 + '_') : (index * 4 + 1)}</span>
+                        <span style={{ border: "solid 1px black" }}> {((index - 8) * 2 + 33)}</span>
                         &nbsp;{ticketData[index].leftTeam} {ticketData[index].leftFirstPercentage}
                     </div>
                     <div style={{ textAlign: "center" }}>
@@ -22,21 +46,22 @@ const MyPreviewFirstPage = ({ from, title, subTitle, gameTitle, startDate, ticke
                     </div>
                     <div>
                         {ticketData[index].rightTeam} {ticketData[index].rightFirstPercentage}
-                        &nbsp;<span style={{ border: "solid 1px black" }}> {(index * 4 + 2) < 10 ? (index * 4 + 2 + '_') : (index * 4 + 2)}</span>
+                        &nbsp;<span style={{ border: "solid 1px black" }}> {(index - 8) * 2 + 34}</span>
+                    </div>
+                </div></div> : <div style={{ justifyContent: "space-between", display: "flex" }}>
+                    <div>
+                        <span style={{ border: "solid 1px black" }}> {((index - 8) * 2 + 33)}</span>
+                        &nbsp;{ticketData[index].leftTeam} {ticketData[index].leftFirstPercentage}
+                    </div>
+                    <div style={{ textAlign: "center" }}>
+                        {ticketData[index].time}
+                    </div>
+                    <div>
+                        {ticketData[index].rightTeam} {ticketData[index].rightFirstPercentage}
+                        &nbsp;<span style={{ border: "solid 1px black" }}> {(index - 8) * 2 + 34}</span>
                     </div>
                 </div>
-                <div style={{ justifyContent: "space-between", display: "flex", marginBottom: "2px" }}>
-                    <div>
-                        <span style={{ border: "solid 1px black" }}> {(index * 4 + 3) < 10 ? (index * 4 + 3 + '_') : (index * 4 + 3)}</span>
-                        &nbsp;Over {ticketData[index].leftSecondPercentage}
-                    </div>
-                    <div>
-                        Under {ticketData[index].rightSecondPercentage}
-                        &nbsp;<span style={{ border: "solid 1px black" }}> {(index * 4 + 4) < 10 ? (index * 4 + 4 + '_') : (index * 4 + 4)}</span>
-                    </div>
-                </div>
-            </div>
-            )}
+            ))}
             <div>______  ______  ______  ______  ______  _____  _____  _____  ______  ______    </div>
             <div style={{ textAlign: "center", fontSize: "18px" }}><b>ALL PICKS MUST BE BLACKED OUT</b></div>
             <table className='table mynumbertable'>

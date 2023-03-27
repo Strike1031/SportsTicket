@@ -11,6 +11,18 @@ import MyTicketTable from '../TicketTable/MyTicketTable';
 import MyPreviewFirstPage from '../TicketTable/MyPreviewFirstPage';
 import MyPreviewSecondPage from '../TicketTable/MyPreviewSecondPage';
 
+function tConvert (time) {
+    // Check correct time format and split into components
+    time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+  
+    if (time.length > 1) { // If time format correct
+      time = time.slice (1);  // Remove full string match value
+      time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+      time[0] = +time[0] % 12 || 12; // Adjust hours
+    }
+    return time.join (' '); // return adjusted time or original string
+  }
+
 export default function Register() {
     const radioGroup = ["NFL", "NBA", "MLB", "NHL", "WNBA", "NCAA-88/F8", "USFL", "XFL"];
     const teamGroup = ["Wizards",
@@ -91,7 +103,7 @@ export default function Register() {
         //eg: "03/10/2023";
         temp.day = (new Date(startDate).getMonth() + 1) + "/" + new Date(startDate).getDate() + "/" + new Date(startDate).getFullYear(); // const d = new Date(date).toLocaleDateString('fr-FR');
         //eg: "05:00 PM";
-        temp.time = "05:00 PM";
+        temp.time = tConvert(startTime);
         setTicketData(ticketData.concat(temp));
     }
     return (
@@ -174,7 +186,7 @@ export default function Register() {
                                     <input type="number" name="leftFirstPercentage" id="leftFirstPercentage" value={leftFirstPercentage} onChange={e => setLeftFirstPercentage(e.value)} className="mx-1"  style={{width: "100%"}}/>
                                 </div>
                                 <div className="col-4">
-                                    <TimePicker onChange={setStartTime} value={startTime} className="mx-3 customTimePickerWidth"/>
+                                    <TimePicker onChange={e => setStartTime(e)} value={startTime} className="mx-3 customTimePickerWidth"/>
                                 </div>
                                 <div className="col-4">
                                     <input type="number" name="rightFirstPercentage" id="rightFirstPercentage" value={rightFirstPercentage} onChange={e => setRightFirstPercentage(e.value)} className="mx-1" style={{width: "100%"}}/>
