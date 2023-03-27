@@ -19,5 +19,22 @@
     line-height: 30px;
 }
 
+.mynumbertable tr td{
+    font-size: 36px;
+    border: solid 1px black;
+}
+
+
+.customDatePickerWidth, 
+.customDatePickerWidth > div.react-datepicker-wrapper, 
+.customDatePickerWidth > div > div.react-datepicker__input-container
+.customDatePickerWidth > div > div.react-datepicker__input-container input {
+   width: 100%;
+}
+
+.react-time-picker__button
+{
+    display: contents;
+}
 
 

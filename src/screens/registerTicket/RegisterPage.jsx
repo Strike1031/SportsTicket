@@ -13,14 +13,44 @@ import MyPreviewSecondPage from '../TicketTable/MyPreviewSecondPage';
 
 export default function Register() {
     const radioGroup = ["NFL", "NBA", "MLB", "NHL", "WNBA", "NCAA-88/F8", "USFL", "XFL"];
-    const teamGroup = ["Northwestern", "Pern State", "UConn", "Marquette"];
+    const teamGroup = ["Wizards",
+    "Pistons",
+    "Cavaliers",
+    "Hornets",
+    "Raptors",
+    "Nuggets",
+    "Lakers",
+    "Pelicans",
+    "Magic",
+    "Spurs",
+    "Thunder",
+    "Nets",
+    "Bucks",
+    "Suns",
+    "Knicks",
+    "Trail Balzers",
+    
+    "Michigan",
+    "UAB",
+    "Vanderbilt",
+    "Liberty",
+    "MississippiState",
+    "Wisconsin",
+    "Washington State",
+    "Toledo",
+    "Southern Miss",
+    "Yale",
+    "Vaillanova",
+    "Pittsburgh",
+    "Bradley",
+    "Eastern Washington"];
     // const percentages = [...new Array(101)].map((each, index) => index);
 
-    const [inputFromNo, setInputFromNo] = useState(1);
-    const [inputToNo, setInputToNo] = useState(50);
+    const [inputFromNo, setInputFromNo] = useState(51);
+    const [inputToNo, setInputToNo] = useState(100);
     const [title, setTitle] = useState("");
     const [subTitle, setSubTitle] = useState("");
-    const [gameTitle, SetGameTitle] = useState(null);
+    const [gameTitle, SetGameTitle] = useState('');
 
     const [leftTeam, setLeftTeam] = useState("Northwestern");
     const [startDate, setStartDate] = useState('');
@@ -30,23 +60,23 @@ export default function Register() {
     const [rightFirstPercentage, setRightFirstPercentage] = useState(13);
     const [leftSecondPercentage, setLeftSecondPercentage] = useState(221);
     const [rightSecondPercentage, setRightSecondPercentage] = useState(221);
-    const [startTime, setStartTime] = useState(null);
+    const [startTime, setStartTime] = useState('');
 
-    // const ticketData = [{leftTeam: "Northwestern", rightTeam: "Pern-State", leftFirstPercentage: "-4", rightFirstPercentage: "-4", leftSecondPercentage: "147", rightSecondPercentage:"147", gameTitle: "CollegeBasketBall", day: "03/10/23",  time: "13:00"},
-    // {leftTeam: "UConn", rightTeam: "Marquettle",rightTeam: "Pern-State", leftFirstPercentage: "-1.5", rightFirstPercentage: "1.5", leftSecondPercentage: "130", rightSecondPercentage:"130", gameTitle: "CollegeBasketBall", day: "03/10/23", time: "17:30", }
-    // ];
-
-    // const [ticketData, setTicketData] = useState([{leftTeam: "Northwestern", rightTeam: "Pern-State", leftFirstPercentage: "-4", rightFirstPercentage: "-4", leftSecondPercentage: "147", rightSecondPercentage:"147", gameTitle: "CollegeBasketBall", day: "03/10/23",  time: "01:00 PM"},
+    const printPDF = async () => {
+        const pdf = new jsPDF("portrait", "pt", "a4");
+        const data = await document.querySelector("#mypdf");
+        pdf.html(data).then(async () => {
+            pdf.save("1.pdf");
+            //   const data1 =  await document.querySelector("#pdf2");
+            //   pdf.html(data1).then(() => {
+            //     pdf.save("1.pdf");
+            //   })
+        });
+    }
+     // const [ticketData, setTicketData] = useState([{leftTeam: "Northwestern", rightTeam: "Pern-State", leftFirstPercentage: "-4", rightFirstPercentage: "-4", leftSecondPercentage: "147", rightSecondPercentage:"147", gameTitle: "CollegeBasketBall", day: "03/10/23",  time: "01:00 PM"},
     //  {leftTeam: "UConn", rightTeam: "Marquettle", leftFirstPercentage: "-1.5", rightFirstPercentage: "1.5", leftSecondPercentage: "130", rightSecondPercentage:"130", gameTitle: "CollegeBasketBall", day: "03/10/23", time: "05:30 PM" }
     //  ]);
     const [ticketData, setTicketData] = useState([]);
-    const printPDF = async() => {
-        const pdf = new jsPDF("portrait", "pt", "a4");
-        const data = await document.querySelector("#pdf");
-        pdf.html(data).then(() => {
-          pdf.save("1.pdf");
-        });
-    }
     const btnAddGame = () => {
         console.log('AddGame');
         //setTicketData(ticketData.concat({leftTeam: "Wizards", rightTeam: "Pistons", leftFirstPercentage: "-13", rightFirstPercentage: "+13", leftSecondPercentage: "221", rightSecondPercentage:"221", gameTitle: "Pro BasketBall", day: "03/10/23", time: "06:00 PM"}));
@@ -71,9 +101,11 @@ export default function Register() {
                     <h3 fontStyle="bold"> Ticket No</h3>
                     <div>
                         <span>From : </span>
-                        <input type="number" name="fromNo" id="fromNo" value={inputFromNo} onChange={e => setInputFromNo(e.value)} style={{ width: "4rem" }} />
-                        <span>&nbsp;To : </span>
-                        <input type="number" name="toNo" id="toNo" value={inputToNo} onChange={e => setInputToNo(e.value)} style={{ width: "4rem" }} />
+                        <input type="number" name="fromNo" id="fromNo" value={inputFromNo} onChange={e => setInputFromNo(e.target.value)} />
+                    </div>
+                    <div>
+                        <span>&nbsp;To &nbsp;&nbsp;&nbsp;&nbsp;: </span>
+                        <input type="number" name="toNo" id="toNo" value={inputToNo} onChange={e => setInputToNo(e.target.value)} />
                     </div>
                     <Row className="my-3">
                         <Col>
@@ -100,9 +132,12 @@ export default function Register() {
                     <div style={{ textAlign: "center" }}>
                         <h3> Team Select</h3>
                         <div>
-                            <span>Games&nbsp;&nbsp;</span>
-                            <input type="text" name="gameTitle" id="gameTitle" value={gameTitle} onChange={e => SetGameTitle(e.target.value)} width="17rem" />
-                            <Row className="d-flex my-2" style={{ width: "580px" }}>
+                            <div>
+                                <span>Games&nbsp;&nbsp;</span>
+                                <input type="text" name="gameTitle" id="gameTitle" value={gameTitle} onChange={e => SetGameTitle(e.target.value)} style={{width: "82%"}} />
+                            </div>
+
+                            <Row className="d-flex my-2" >
                                 <div className="col-4">
                                     <DropdownButton id="dropdown-item-button" title={leftTeam} value={leftTeam} className="mx-2">
                                         {
@@ -113,11 +148,11 @@ export default function Register() {
 
                                     </DropdownButton>
                                 </div>
-                                <div className="col-4">
-                                    <DatePicker selected={startDate} onChange={e => setStartDate(e)} placeholderText={'dd/mm/yy'} showYearDropdown scrollableYearDropdown />
+                                <div className="col-4" style={{marginTop: "3px", paddingLeft: "30px"}}>
+                                    <DatePicker selected={startDate} onChange={e => setStartDate(e)} placeholderText={'dd/mm/yy'} showYearDropdown scrollableYearDropdown className="customDatePickerWidth"/>
                                 </div>
                                 <div className="col-4">
-                                    <DropdownButton id="dropdown-item-button" title={rightTeam} value={rightTeam} className="mx-2" style={{ textAlign: "right" }}>
+                                    <DropdownButton id="dropdown-item-button" title={rightTeam} value={rightTeam}  style={{ textAlign: "center" }}>
                                         {
                                             teamGroup.map(i =>
                                                 <Dropdown.Item key={i} as="button" value={i} onClick={e => setRightTeam(e.target.value)}>{i}</Dropdown.Item>
@@ -126,7 +161,7 @@ export default function Register() {
                                     </DropdownButton>
                                 </div>
                             </Row>
-                            <Row className="d-flex my-2" style={{ width: "580px" }}>
+                            <Row className="d-flex my-2" >
                                 {/* ********* -100 ~ 100 ***********/}
                                 {/* <DropdownButton id="dropdown-item-button" title={leftFirstPercentage} value={leftFirstPercentage} className="mx-2">
                                     {
@@ -136,53 +171,53 @@ export default function Register() {
                                     }
                                 </DropdownButton> */}
                                 <div className="col-4">
-                                    <input type="number" name="leftFirstPercentage" id="leftFirstPercentage" value={leftFirstPercentage} onChange={e => setLeftFirstPercentage(e.value)} className="mx-1" />
+                                    <input type="number" name="leftFirstPercentage" id="leftFirstPercentage" value={leftFirstPercentage} onChange={e => setLeftFirstPercentage(e.value)} className="mx-1"  style={{width: "100%"}}/>
                                 </div>
                                 <div className="col-4">
-                                    <TimePicker onChange={setStartTime} value={startTime} className="mx-3" style={{ width: "100%" }} />
+                                    <TimePicker onChange={setStartTime} value={startTime} className="mx-3 customTimePickerWidth"/>
                                 </div>
                                 <div className="col-4">
-                                    <input type="number" name="rightFirstPercentage" id="rightFirstPercentage" value={rightFirstPercentage} onChange={e => setRightFirstPercentage(e.value)} className="mx-1" />
+                                    <input type="number" name="rightFirstPercentage" id="rightFirstPercentage" value={rightFirstPercentage} onChange={e => setRightFirstPercentage(e.value)} className="mx-1" style={{width: "100%"}}/>
                                 </div>
 
                             </Row>
-                            <Row className="d-flex my-2" style={{ width: "580px" }}>
+                            <Row className="d-flex my-2" >
                                 <div className="col-4">
-                                    <input type="number" name="leftSecondPercentage" id="leftSecondPercentage" value={leftSecondPercentage} onChange={e => setLeftSecondPercentage(e.value)} className="mx-1" />
+                                    <input type="number" name="leftSecondPercentage" id="leftSecondPercentage" value={leftSecondPercentage} onChange={e => setLeftSecondPercentage(e.value)} className="mx-1" style={{width: "100%"}} />
                                 </div>
                                 <div className="col-4">
 
                                 </div>
                                 <div className="col-4">
-                                    <input type="number" name="rightSecondPercentage" id="rightSecondPercentage" value={rightSecondPercentage} onChange={e => setRightSecondPercentage(e.value)} className="mx-1" />
+                                    <input type="number" name="rightSecondPercentage" id="rightSecondPercentage" value={rightSecondPercentage} onChange={e => setRightSecondPercentage(e.value)} className="mx-1" style={{width: "100%"}}/>
                                 </div>
                             </Row>
-                            <Row className="d-flex my-2" style={{ width: "600px" }}>
+                            <Row className="d-flex my-2" >
                                 <div className="col-4"></div>
                                 <div className="col-4">
                                     <Button variant="primary" onClick={btnAddGame}>Add Game</Button>
                                 </div>
                                 <div className="col-4"></div>
                             </Row>
-                            <Row className="d-flex my-2" style={{ width: "600px" }}>
+                            <Row className="d-flex my-2" >
                                 <MyTicketTable data={ticketData} />
                             </Row>
                         </div>
                     </div>
                 </div>
                 <div className="col-8" >
-                    <div style={{width: "100%"}}>
-                        <Button onClick={printPDF} variant="primary" className = "my-2" style={{width: "300px", textAlign: "center"}}>Print</Button>
+                    <div style={{ width: "100%" }}>
+                        <Button onClick={printPDF} variant="primary" className="my-2" style={{ width: "100%", textAlign: "center" }}>Print</Button>
                     </div>
-                    <Row id="pdf">
+                    <Row id="mypdf">
                         {/* Preview First Page */}
 
-                        <div className="col-6">
-                            <MyPreviewFirstPage title={title} subTitle={subTitle} gameTitle={gameTitle} startDate={startDate}></MyPreviewFirstPage>
+                        <div className="col-6" id="pdf1">
+                            <MyPreviewFirstPage from={inputFromNo} title={title} subTitle={subTitle} gameTitle={gameTitle} startDate={startDate} ticketData={ticketData}></MyPreviewFirstPage>
                         </div>
                         {/* Preview Second Page */}
-                        <div className="col-6">
-                            <MyPreviewSecondPage/>
+                        <div className="col-6" id="pdf2" style={{ textAlign: "center" }}>
+                            <MyPreviewSecondPage />
                         </div>
                     </Row>
                 </div>
