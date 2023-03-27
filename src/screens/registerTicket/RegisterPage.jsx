@@ -14,57 +14,57 @@ import MyPreviewFirstPage from '../TicketTable/MyPreviewFirstPage';
 import MyPreviewSecondPage from '../TicketTable/MyPreviewSecondPage';
 
 
-function tConvert (time) {
+function tConvert(time) {
     // Check correct time format and split into components
-    time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
-  
+    time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+
     if (time.length > 1) { // If time format correct
-      time = time.slice (1);  // Remove full string match value
-      time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
-      time[0] = +time[0] % 12 || 12; // Adjust hours
+        time = time.slice(1);  // Remove full string match value
+        time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+        time[0] = +time[0] % 12 || 12; // Adjust hours
     }
-    return time.join (''); // return adjusted time or original string
-  }
+    return time.join(''); // return adjusted time or original string
+}
 
 function tConvertReverse(time) {
     const dt = moment(time, ["h:mm A"]).format("HH:mm");
     return dt;
 }
-  
+
 export default function Register() {
     const radioGroup = ["NFL", "NBA", "MLB", "NHL", "WNBA", "NCAA-88/F8", "USFL", "XFL"];
-    
+
     const teamGroup = ["Wizards",
-    "Pistons",
-    "Cavaliers",
-    "Hornets",
-    "Raptors",
-    "Nuggets",
-    "Lakers",
-    "Pelicans",
-    "Magic",
-    "Spurs",
-    "Thunder",
-    "Nets",
-    "Bucks",
-    "Suns",
-    "Knicks",
-    "Trail Balzers",
-    
-    "Michigan",
-    "UAB",
-    "Vanderbilt",
-    "Liberty",
-    "MississippiState",
-    "Wisconsin",
-    "Washington State",
-    "Toledo",
-    "Southern Miss",
-    "Yale",
-    "Vaillanova",
-    "Pittsburgh",
-    "Bradley",
-    "Eastern Washington"];
+        "Pistons",
+        "Cavaliers",
+        "Hornets",
+        "Raptors",
+        "Nuggets",
+        "Lakers",
+        "Pelicans",
+        "Magic",
+        "Spurs",
+        "Thunder",
+        "Nets",
+        "Bucks",
+        "Suns",
+        "Knicks",
+        "Trail Balzers",
+
+        "Michigan",
+        "UAB",
+        "Vanderbilt",
+        "Liberty",
+        "MississippiState",
+        "Wisconsin",
+        "Washington State",
+        "Toledo",
+        "Southern Miss",
+        "Yale",
+        "Vaillanova",
+        "Pittsburgh",
+        "Bradley",
+        "Eastern Washington"];
     // const percentages = [...new Array(101)].map((each, index) => index);
 
     const [inputFromNo, setInputFromNo] = useState(51);
@@ -86,12 +86,12 @@ export default function Register() {
     const [ticketData, setTicketData] = useState([]);
     const [currentIndex, setCurrentIndex] = useState(-1);
 
-    function changeEachTicketInfo (index) {
+    function changeEachTicketInfo(index) {
         console.log("!!!!change ticket info!!!!!");
         console.log(index);
         setCurrentIndex(index);
         // Initialize current input fields to selected item's data
-        setLeftTeam (ticketData[index].leftTeam);
+        setLeftTeam(ticketData[index].leftTeam);
         setRightTeam(ticketData[index].rightTeam);
         setLeftFirstPercentage(ticketData[index].leftFirstPercentage);
         setLeftSecondPercentage(ticketData[index].leftSecondPercentage);
@@ -103,23 +103,32 @@ export default function Register() {
     }
 
     const printPDF = async () => {
+        // const pdf = new jsPDF("portrait", "pt", "a4");
+        // const data = await document.querySelector("#mypdf");
+        // pdf.html(data).then(async () => {
+        //     pdf.save("1.pdf");
+        // });
+
+        const input = document.getElementById("pdf1");
+        // const pdf = new jsPDF({ unit: "px", format: "letter", userUnit: "px" });
         const pdf = new jsPDF("portrait", "pt", "a4");
-        const data = await document.querySelector("#mypdf");
-        pdf.html(data).then(async () => {
-            pdf.save("1.pdf");
-            //   const data1 =  await document.querySelector("#pdf2");
-            //   pdf.html(data1).then(() => {
-            //     pdf.save("1.pdf");
-            //   })
+        pdf.html(input, { html2canvas: { scale: 0.52 } }).then(() => {
+            // var pageCount = pdf.internal.getNumberOfPages();
+            // for (let i = pageCount-1; i > 1; i--) {
+            //     pdf.deletePage(i);
+            // }
+            pdf.save("test.pdf");
         });
+
+
     }
-     // const [ticketData, setTicketData] = useState([{leftTeam: "Northwestern", rightTeam: "Pern-State", leftFirstPercentage: "-4", rightFirstPercentage: "-4", leftSecondPercentage: "147", rightSecondPercentage:"147", gameTitle: "CollegeBasketBall", day: "03/10/23",  time: "01:00 PM"},
+    // const [ticketData, setTicketData] = useState([{leftTeam: "Northwestern", rightTeam: "Pern-State", leftFirstPercentage: "-4", rightFirstPercentage: "-4", leftSecondPercentage: "147", rightSecondPercentage:"147", gameTitle: "CollegeBasketBall", day: "03/10/23",  time: "01:00 PM"},
     //  {leftTeam: "UConn", rightTeam: "Marquettle", leftFirstPercentage: "-1.5", rightFirstPercentage: "1.5", leftSecondPercentage: "130", rightSecondPercentage:"130", gameTitle: "CollegeBasketBall", day: "03/10/23", time: "05:30 PM" }
     //  ]);
     const btnSaveItem = () => {
         if (currentIndex >= 0) {
             setTicketData((prev) => {
-                prev[currentIndex] = {leftTeam: leftTeam, rightTeam: rightTeam, leftFirstPercentage: leftFirstPercentage, rightFirstPercentage: rightFirstPercentage, leftSecondPercentage: leftSecondPercentage, rightSecondPercentage: rightSecondPercentage, gameTitle: gameTitle, day: startDate,  time: startTime};
+                prev[currentIndex] = { leftTeam: leftTeam, rightTeam: rightTeam, leftFirstPercentage: leftFirstPercentage, rightFirstPercentage: rightFirstPercentage, leftSecondPercentage: leftSecondPercentage, rightSecondPercentage: rightSecondPercentage, gameTitle: gameTitle, day: startDate, time: startTime };
                 return prev;
             });
         }
@@ -183,7 +192,7 @@ export default function Register() {
                         <div>
                             <div>
                                 <span>Games&nbsp;&nbsp;</span>
-                                <input type="text" name="gameTitle" id="gameTitle" value={gameTitle} onChange={e => SetGameTitle(e.target.value)} style={{width: "82%"}} />
+                                <input type="text" name="gameTitle" id="gameTitle" value={gameTitle} onChange={e => SetGameTitle(e.target.value)} style={{ width: "82%" }} />
                             </div>
 
                             <Row className="d-flex my-2" >
@@ -197,11 +206,11 @@ export default function Register() {
 
                                     </DropdownButton>
                                 </div>
-                                <div className="col-4" style={{marginTop: "3px", paddingLeft: "30px"}}>
-                                    <DatePicker  dateFormat="dd/MM/yyyy" value={startDate} onChange={e => {const d = new Date(e).toLocaleDateString('fr-FR'); setStartDate(d);} } placeholderText={'dd/mm/yyyy'} showYearDropdown scrollableYearDropdown className="customDatePickerWidth"/>
+                                <div className="col-4" style={{ marginTop: "3px", paddingLeft: "30px" }}>
+                                    <DatePicker dateFormat="dd/MM/yyyy" value={startDate} onChange={e => { const d = new Date(e).toLocaleDateString('fr-FR'); setStartDate(d); }} placeholderText={'dd/mm/yyyy'} showYearDropdown scrollableYearDropdown className="customDatePickerWidth" />
                                 </div>
                                 <div className="col-4">
-                                    <DropdownButton id="dropdown-item-button" title={rightTeam} value={rightTeam}  style={{ textAlign: "center" }}>
+                                    <DropdownButton id="dropdown-item-button" title={rightTeam} value={rightTeam} style={{ textAlign: "center" }}>
                                         {
                                             teamGroup.map(i =>
                                                 <Dropdown.Item key={i} as="button" value={i} onClick={e => setRightTeam(e.target.value)}>{i}</Dropdown.Item>
@@ -220,25 +229,25 @@ export default function Register() {
                                     }
                                 </DropdownButton> */}
                                 <div className="col-4">
-                                    <input type="number" name="leftFirstPercentage" id="leftFirstPercentage" value={leftFirstPercentage} onChange={e => setLeftFirstPercentage(e.target.value)} className="mx-1"  style={{width: "100%"}}/>
+                                    <input type="number" name="leftFirstPercentage" id="leftFirstPercentage" value={leftFirstPercentage} onChange={e => setLeftFirstPercentage(e.target.value)} className="mx-1" style={{ width: "100%" }} />
                                 </div>
                                 <div className="col-4">
-                                    <TimePicker onChange={e => setStartTime(e)} value={startTime} className="mx-3 customTimePickerWidth"/>
+                                    <TimePicker onChange={e => setStartTime(e)} value={startTime} className="mx-3 customTimePickerWidth" />
                                 </div>
                                 <div className="col-4">
-                                    <input type="number" name="rightFirstPercentage" id="rightFirstPercentage" value={rightFirstPercentage} onChange={e => setRightFirstPercentage(e.target.value)} className="mx-1" style={{width: "100%"}}/>
+                                    <input type="number" name="rightFirstPercentage" id="rightFirstPercentage" value={rightFirstPercentage} onChange={e => setRightFirstPercentage(e.target.value)} className="mx-1" style={{ width: "100%" }} />
                                 </div>
 
                             </Row>
                             <Row className="d-flex my-2" >
                                 <div className="col-4">
-                                    <input type="number" name="leftSecondPercentage" id="leftSecondPercentage" value={leftSecondPercentage} onChange={e => setLeftSecondPercentage(e.target.value)} className="mx-1" style={{width: "100%"}} />
+                                    <input type="number" name="leftSecondPercentage" id="leftSecondPercentage" value={leftSecondPercentage} onChange={e => setLeftSecondPercentage(e.target.value)} className="mx-1" style={{ width: "100%" }} />
                                 </div>
                                 <div className="col-4">
 
                                 </div>
                                 <div className="col-4">
-                                    <input type="number" name="rightSecondPercentage" id="rightSecondPercentage" value={rightSecondPercentage} onChange={e => setRightSecondPercentage(e.target.value)} className="mx-1" style={{width: "100%"}}/>
+                                    <input type="number" name="rightSecondPercentage" id="rightSecondPercentage" value={rightSecondPercentage} onChange={e => setRightSecondPercentage(e.target.value)} className="mx-1" style={{ width: "100%" }} />
                                 </div>
                             </Row>
                             <Row className="d-flex my-2" >
@@ -251,7 +260,7 @@ export default function Register() {
                                 </div>
                             </Row>
                             <Row className="d-flex my-2" >
-                                <MyTicketTable data={ticketData} myFunc = {changeEachTicketInfo} />
+                                <MyTicketTable data={ticketData} myFunc={changeEachTicketInfo} />
                             </Row>
                         </div>
                     </div>
