@@ -12,7 +12,7 @@ import jsPDF from "jspdf";
 import MyTicketTable from '../TicketTable/MyTicketTable';
 import MyPreviewFirstPage from '../TicketTable/MyPreviewFirstPage';
 import MyPreviewSecondPage from '../TicketTable/MyPreviewSecondPage';
-
+import html2canvas from 'html2canvas';
 
 function tConvert(time) {
     // Check correct time format and split into components
@@ -103,6 +103,65 @@ export default function Register() {
     }
 
     const printPDF = async () => {
+        const doc = new jsPDF('p', 'px', 'a4');
+
+        /**-------------Front----------------- */
+        const input = document.getElementById("pdf1");
+        const input1 = document.getElementById("pdf2");
+        html2canvas(input, {
+            useCORS: true,
+            allowTaint: true,
+            scrollY: -window.scrollY,
+        }).then(canvas => {
+            const image = canvas.toDataURL('image/jpeg', 1.0);
+
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const widthRatio = pageWidth / canvas.width;
+            const heightRatio = pageHeight / canvas.height;
+            const ratio = widthRatio > heightRatio ? heightRatio : widthRatio;
+
+            const canvasWidth = canvas.width * ratio;
+            const canvasHeight = canvas.height * ratio;
+
+            const marginX = (pageWidth - canvasWidth) / 2;
+            const marginY = (pageHeight - canvasHeight) / 2;
+
+            doc.addImage(image, 'JPEG', marginX, marginY, canvasWidth, canvasHeight);
+            //doc.output('dataurlnewwindow');
+            /**-------------Back----------------- */
+            doc.addPage();
+            html2canvas(input1, {
+                useCORS: true,
+                allowTaint: true,
+                scrollY: -window.scrollY,
+            }).then(canvas1 => {
+                const image1 = canvas1.toDataURL('image/jpeg', 1.0);
+
+                const pageWidth1 = doc.internal.pageSize.getWidth();
+                const pageHeight1 = doc.internal.pageSize.getHeight();
+                const widthRatio1 = pageWidth1 / canvas1.width;
+                const heightRatio1 = pageHeight1 / canvas1.height;
+                const ratio1 = widthRatio1 > heightRatio1 ? heightRatio1 : widthRatio1;
+
+                const canvasWidth1 = canvas1.width * ratio1;
+                const canvasHeight1 = canvas1.height * ratio1;
+
+                const marginX1 = (pageWidth1 - canvasWidth1) / 2;
+                const marginY1 = (pageHeight1 - canvasHeight1) / 2;
+
+                doc.addImage(image1, 'JPEG', marginX1, marginY1, canvasWidth1, canvasHeight1);
+                // doc.output('dataurlnewwindow');
+                doc.save("test.pdf");
+            });
+
+            
+        });
+
+
+    };
+
+    const printPDF1 = async () => {
         // const pdf = new jsPDF("portrait", "pt", "a4");
         // const data = await document.querySelector("#mypdf");
         // pdf.html(data).then(async () => {

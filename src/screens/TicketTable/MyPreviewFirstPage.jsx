@@ -7,6 +7,7 @@ const MyPreviewFirstPage = ({ from, title, subTitle, gameTitle, startDate, ticke
     const month = new Date(startDate).getMonth();
     return (<>
         <div style={{ width: "100%", textAlign: "center" }}>
+            <br/>
             <div style={{ textAlign: "right" }}>No. {from}</div>
             <h2>{title}</h2>
             <h4>{subTitle}</h4>
