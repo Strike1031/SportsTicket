@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import '../../assets/css/main.css'
+import { Button } from 'react-bootstrap';
 
-const MyTicketTable = ({ data }) => {
+
+const MyTicketTable = ({ data, myFunc }) => {
 	return (
 		<div>
 			<table className='table table-striped'>
@@ -31,7 +33,9 @@ const MyTicketTable = ({ data }) => {
 										<div>{units.rightTeam}&nbsp;{units.rightFirstPercentage}</div>
 										<div>Under&nbsp;{units.rightSecondPercentage}</div>
 									</td>
-									<td className='mytable'>Edit</td>
+									<td className='mytable'>
+										<Button variant="secondary" onClick={()=>myFunc(index)}>Edit</Button>
+									</td>
 								</tr>
 							)
 						})}
