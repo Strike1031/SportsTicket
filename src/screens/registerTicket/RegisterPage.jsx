@@ -33,38 +33,39 @@ function tConvertReverse(time) {
 
 export default function Register() {
     const radioGroup = ["NFL", "NBA", "MLB", "NHL", "WNBA", "NCAA-88/F8", "USFL", "XFL"];
+    const [country, setCountry] = useState("NFL");
+    const teamGroup = {"NFL":["A","B","C"], "NBA":["D","E","F"], "MLB":["G","H","I"], "NHL":["j","k","L"], "WNBA":["N","O","P"], "NCAA-88/F8":["Q","R","S"], "USFL":["T","U","V"], "XFL":["W","Y","Z"]};
+    // const teamGroup = ["Wizards",
+    //     "Pistons",
+    //     "Cavaliers",
+    //     "Hornets",
+    //     "Raptors",
+    //     "Nuggets",
+    //     "Lakers",
+    //     "Pelicans",
+    //     "Magic",
+    //     "Spurs",
+    //     "Thunder",
+    //     "Nets",
+    //     "Bucks",
+    //     "Suns",
+    //     "Knicks",
+    //     "Trail Balzers",
 
-    const teamGroup = ["Wizards",
-        "Pistons",
-        "Cavaliers",
-        "Hornets",
-        "Raptors",
-        "Nuggets",
-        "Lakers",
-        "Pelicans",
-        "Magic",
-        "Spurs",
-        "Thunder",
-        "Nets",
-        "Bucks",
-        "Suns",
-        "Knicks",
-        "Trail Balzers",
-
-        "Michigan",
-        "UAB",
-        "Vanderbilt",
-        "Liberty",
-        "MississippiState",
-        "Wisconsin",
-        "Washington State",
-        "Toledo",
-        "Southern Miss",
-        "Yale",
-        "Vaillanova",
-        "Pittsburgh",
-        "Bradley",
-        "Eastern Washington"];
+    //     "Michigan",
+    //     "UAB",
+    //     "Vanderbilt",
+    //     "Liberty",
+    //     "MississippiState",
+    //     "Wisconsin",
+    //     "Washington State",
+    //     "Toledo",
+    //     "Southern Miss",
+    //     "Yale",
+    //     "Vaillanova",
+    //     "Pittsburgh",
+    //     "Bradley",
+    //     "Eastern Washington"];
     // const percentages = [...new Array(101)].map((each, index) => index);
 
     const [inputFromNo, setInputFromNo] = useState(51);
@@ -73,9 +74,9 @@ export default function Register() {
     const [subTitle, setSubTitle] = useState("");
     const [gameTitle, SetGameTitle] = useState('');
 
-    const [leftTeam, setLeftTeam] = useState("Northwestern");
+    const [leftTeam, setLeftTeam] = useState("");
     const [startDate, setStartDate] = useState('');
-    const [rightTeam, setRightTeam] = useState("Pern State");
+    const [rightTeam, setRightTeam] = useState("");
 
     const [leftFirstPercentage, setLeftFirstPercentage] = useState(-13);
     const [rightFirstPercentage, setRightFirstPercentage] = useState(13);
@@ -240,7 +241,7 @@ export default function Register() {
                             <div className="radio-buttons">
                                 {radioGroup.map(i =>
                                     <div key={i}>
-                                        <input type="radio" name="myGroupSelect" id="myGroupSelect" value={i} /> {i}
+                                        <input type="radio" name="myGroupSelect" id="myGroupSelect" value={i} onChange={e => setCountry(e.target.value)}/> {i}
                                     </div>
                                 )}
                             </div>
@@ -258,7 +259,7 @@ export default function Register() {
                                 <div className="col-4">
                                     <DropdownButton id="dropdown-item-button" title={leftTeam} value={leftTeam} className="mx-2">
                                         {
-                                            teamGroup.map(i =>
+                                            teamGroup[country].map(i =>
                                                 <Dropdown.Item key={i} as="button" value={i} onClick={e => setLeftTeam(e.target.value)}>{i}</Dropdown.Item>
                                             )
                                         }
@@ -271,7 +272,7 @@ export default function Register() {
                                 <div className="col-4">
                                     <DropdownButton id="dropdown-item-button" title={rightTeam} value={rightTeam} style={{ textAlign: "center" }}>
                                         {
-                                            teamGroup.map(i =>
+                                            teamGroup[country].map(i =>
                                                 <Dropdown.Item key={i} as="button" value={i} onClick={e => setRightTeam(e.target.value)}>{i}</Dropdown.Item>
                                             )
                                         }
