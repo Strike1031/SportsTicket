@@ -2,16 +2,42 @@ import React, { useState } from 'react';
 import { Row, Col } from "react-bootstrap";
 import '../../assets/css/main.css';
 
-const MyPreviewFirstPage = ({ from, title, subTitle, gameTitle, startDate, ticketData }) => {
-    const day = new Date(startDate).getDay();
-    const month = new Date(startDate).getMonth();
+const MyPreviewFirstPage = ({ from, title, subTitle, gameTitle, gameTitle2, startDate, initialDate, ticketData }) => {
+    let day, month, mydate;
+    if (startDate == '') {
+        const [day1, month1, year1] = startDate.split('/');
+        const tempdate = new Date(+year1, +month1-1, +day1);
+        console.log("tempdate", tempdate);
+        mydate = tempdate.getDate();
+        day = tempdate.getDay();
+        month = tempdate.getMonth();
+    }
+    else {
+        /**
+         * const str = '06/15/2022';
+
+            const [month, day, year] = str.split('/');
+
+            console.log(month); // 06
+            console.log(day); // 15
+            console.log(year); // 2022
+
+            const date = new Date(+year, +month - 1, +day);
+         */
+        const [day1, month1, year1] = initialDate.split('/');
+        const tempdate = new Date(+year1, +month1-1, +day1);
+        console.log("tempdate", tempdate);
+        mydate = tempdate.getDate();
+        day = tempdate.getDay();
+        month = tempdate.getMonth();
+    }
     return (<>
         <div style={{ width: "100%", textAlign: "center" }}>
-            <br/>
+            <br />
             <div style={{ textAlign: "right" }}>No. {from}</div>
             <h2>{title}</h2>
             <h4>{subTitle}</h4>
-            {gameTitle != '' && <u>{gameTitle},{day == 0 ? "Sun" : day == 1 ? "Mon" : day == 2 ? "Tue" : day == 3 ? "Wed" : day == 4 ? "Thu" : day == 5 ? "Fri" : day == 6 ? "Sat" : ""}, {month == 0 ? "Jan" : month == 1 ? "Feb" : month == 2 ? "Mar" : month == 3 ? "Apr" : month == 4 ? "May" : month == 5 ? "Jun" : month == 6 ? "Jul" : month == 7 ? "Aug" : month == 8 ? "Sep" : month == 9 ? "Oct" : month == 10 ? "Nov" : month == 11 ? "Dec" : ""}&nbsp;{new Date(startDate).getDate()}</u>}
+            {gameTitle != '' && <u>{gameTitle},{day == 0 ? "Sun" : day == 1 ? "Mon" : day == 2 ? "Tue" : day == 3 ? "Wed" : day == 4 ? "Thu" : day == 5 ? "Fri" : day == 6 ? "Sat" : ""}, {month == 0 ? "Jan" : month == 1 ? "Feb" : month == 2 ? "Mar" : month == 3 ? "Apr" : month == 4 ? "May" : month == 5 ? "Jun" : month == 6 ? "Jul" : month == 7 ? "Aug" : month == 8 ? "Sep" : month == 9 ? "Oct" : month == 10 ? "Nov" : month == 11 ? "Dec" : ""}&nbsp;{mydate}</u>}
             {ticketData.map((key, index) => (
                 index < 8 ? <div key={index}>
                     <div style={{ justifyContent: "space-between", display: "flex" }}>
@@ -37,7 +63,7 @@ const MyPreviewFirstPage = ({ from, title, subTitle, gameTitle, startDate, ticke
                             &nbsp;<span style={{ border: "solid 1px black" }}> {(index * 4 + 4) < 10 ? (index * 4 + 4 + '_') : (index * 4 + 4)}</span>
                         </div>
                     </div>
-                </div> : index == 8 ? gameTitle != '' && <div> <u>{gameTitle},{day == 0 ? "Sun" : day == 1 ? "Mon" : day == 2 ? "Tue" : day == 3 ? "Wed" : day == 4 ? "Thu" : day == 5 ? "Fri" : day == 6 ? "Sat" : ""}, {month == 0 ? "Jan" : month == 1 ? "Feb" : month == 2 ? "Mar" : month == 3 ? "Apr" : month == 4 ? "May" : month == 5 ? "Jun" : month == 6 ? "Jul" : month == 7 ? "Aug" : month == 8 ? "Sep" : month == 9 ? "Oct" : month == 10 ? "Nov" : month == 11 ? "Dec" : ""}&nbsp;{new Date(startDate).getDate()}</u> <div style={{ justifyContent: "space-between", display: "flex" }}>
+                </div> : index == 8 ? <div> <u>{gameTitle2},{day == 0 ? "Sun" : day == 1 ? "Mon" : day == 2 ? "Tue" : day == 3 ? "Wed" : day == 4 ? "Thu" : day == 5 ? "Fri" : day == 6 ? "Sat" : ""}, {month == 0 ? "Jan" : month == 1 ? "Feb" : month == 2 ? "Mar" : month == 3 ? "Apr" : month == 4 ? "May" : month == 5 ? "Jun" : month == 6 ? "Jul" : month == 7 ? "Aug" : month == 8 ? "Sep" : month == 9 ? "Oct" : month == 10 ? "Nov" : month == 11 ? "Dec" : ""}&nbsp;{mydate}</u> <div style={{ justifyContent: "space-between", display: "flex" }}>
                     <div>
                         <span style={{ border: "solid 1px black" }}> {((index - 8) * 2 + 33)}</span>
                         &nbsp;{ticketData[index].leftTeam} {ticketData[index].leftFirstPercentage}
