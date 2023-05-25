@@ -578,17 +578,61 @@ export default function Register() {
     function changeEachTicketInfo(index) {
         console.log("!!!!change ticket info!!!!!");
         console.log(index);
-        setCurrentIndex(index);
+        let realindex = -1;
+        ticketData.map( (units,i) => {
+            if (ticketData[i].index == index)
+            {
+               realindex = i;
+            }
+        });
+        if (realindex == -1)
+            return;
+        
+        setCurrentIndex(realindex);
+        if (ticketData[realindex].leftFirstPercentage <= 0)
+        {
+             setLeftFirstPercentage(ticketData[realindex].leftFirstPercentage);
+            //setRightFirstPercentage(ticketData[index].rightFirstPercentage);
+            setRightFirstPercentage(0-ticketData[realindex].leftFirstPercentage);
+        }
+        else
+            return;
         // Initialize current input fields to selected item's data
-        setLeftTeam(ticketData[index].leftTeam);
-        setRightTeam(ticketData[index].rightTeam);
-        setLeftFirstPercentage(ticketData[index].leftFirstPercentage);
-        setLeftSecondPercentage(ticketData[index].leftSecondPercentage);
-        setRightFirstPercentage(ticketData[index].rightFirstPercentage);
-        setRightSecondPercentage(ticketData[index].rightSecondPercentage);
-        setStartTime(tConvertReverse(ticketData[index].time));//tConvert(ticketData[index].time)
-        setStartDate(ticketData[index].day);
-        SetGameTitle(ticketData[index].gameTitle);
+        setLeftTeam(ticketData[realindex].leftTeam);
+        setRightTeam(ticketData[realindex].rightTeam);
+        setLeftSecondPercentage(ticketData[realindex].leftSecondPercentage);
+        setRightSecondPercentage(ticketData[realindex].rightSecondPercentage);
+        setStartTime(tConvertReverse(ticketData[realindex].time));//tConvert(ticketData[index].time)
+        setStartDate(ticketData[realindex].day);
+        SetGameTitle(ticketData[realindex].gameTitle);
+
+    }
+
+    function removeEachTicketInfo(index) {
+        console.log("!!!!remove ticket info!!!!!");
+
+        let realindex = -1;
+
+        ticketData.map( (units,i) => {
+            if (ticketData[i].index == index)
+            {
+                setCurrentIndex(i);
+                realindex = i;
+            }
+        });
+        console.log(realindex);
+        if (realindex != -1)
+        {
+            // setTicketData((prev) => {
+            //     console.log("setTicketdata----------");
+            //     prev.splice(realindex, 1);
+            //     return [...prev];
+            // });
+            let _ticketData = [...ticketData];
+            _ticketData.splice(realindex, 1);
+            setTicketData(_ticketData);
+        }
+
     }
 
     const printPDF = async () => {
@@ -676,8 +720,9 @@ export default function Register() {
     const btnSaveItem = () => {
         if (currentIndex >= 0) {
             setTicketData((prev) => {
-                prev[currentIndex] = { leftTeam: leftTeam, rightTeam: rightTeam, leftFirstPercentage: leftFirstPercentage, rightFirstPercentage: rightFirstPercentage, leftSecondPercentage: leftSecondPercentage, rightSecondPercentage: rightSecondPercentage, gameTitle: gameTitle, day: startDate, time: startTime };
-                return prev;
+                console.log("Hello");
+                prev[currentIndex] = { index: currentIndex, leftTeam: leftTeam, rightTeam: rightTeam, leftFirstPercentage: leftFirstPercentage, rightFirstPercentage: rightFirstPercentage, leftSecondPercentage: leftSecondPercentage, rightSecondPercentage: rightSecondPercentage, gameTitle: gameTitle, day: startDate, time: startTime };
+                return [...prev];
             });
         }
 
@@ -686,7 +731,9 @@ export default function Register() {
     const btnAddGame = () => {
         console.log('AddGame');
         //setTicketData(ticketData.concat({leftTeam: "Wizards", rightTeam: "Pistons", leftFirstPercentage: "-13", rightFirstPercentage: "+13", leftSecondPercentage: "221", rightSecondPercentage:"221", gameTitle: "Pro BasketBall", day: "03/10/23", time: "06:00 PM"}));
-        const temp = { leftTeam: "", rightTeam: "", leftFirstPercentage: "", rightFirstPercentage: "", leftSecondPercentage: "", rightSecondPercentage: "", gameTitle: "", day: "", time: "" };
+        const temp = { index: -1 , leftTeam: "", rightTeam: "", leftFirstPercentage: "", rightFirstPercentage: "", leftSecondPercentage: "", rightSecondPercentage: "", gameTitle: "", day: "", time: "" };
+
+        temp.index = ticketData.length > 0 ? (ticketData[ticketData.length-1].index + 1) : 0;
         temp.leftTeam = leftTeam;
         temp.rightTeam = rightTeam;
         temp.leftFirstPercentage = leftFirstPercentage;
@@ -699,6 +746,11 @@ export default function Register() {
         //eg: "05:00 PM";
         temp.time = tConvert(startTime);
         setTicketData(ticketData.concat(temp));
+    }
+
+    const SetCurrentDay = () => {
+        const d = new Date().toLocaleDateString('fr-FR');
+        setStartDate(d);
     }
     return (
         <div>
@@ -740,7 +792,7 @@ export default function Register() {
                         <div>
                             <div>
                                 <span>Games&nbsp;&nbsp;</span>
-                                <input type="text" name="gameTitle" id="gameTitle" value={gameTitle} onChange={e => SetGameTitle(e.target.value)} style={{ width: "82%" }} />
+                                <input type="text" name="gameTitle" id="gameTitle" value={gameTitle} onChange={e => {SetGameTitle(e.target.value); SetCurrentDay();}} style={{ width: "82%" }} />
                             </div>
 
                             <Row className="d-flex my-2" >
@@ -777,13 +829,13 @@ export default function Register() {
                                     }
                                 </DropdownButton> */}
                                 <div className="col-4">
-                                    <input type="number" name="leftFirstPercentage" id="leftFirstPercentage" value={leftFirstPercentage} onChange={e => setLeftFirstPercentage(e.target.value)} className="mx-1" style={{ width: "100%" }} />
+                                    <input type="number" name="leftFirstPercentage" id="leftFirstPercentage" value={leftFirstPercentage} onChange={e => {if (e.target.value <= 0) {setLeftFirstPercentage(e.target.value); setRightFirstPercentage(0-e.target.value)}}} className="mx-1" style={{ width: "100%" }} />
                                 </div>
                                 <div className="col-4">
                                     <TimePicker onChange={e => setStartTime(e)} value={startTime} className="mx-3 customTimePickerWidth" />
                                 </div>
                                 <div className="col-4">
-                                    <input type="number" name="rightFirstPercentage" id="rightFirstPercentage" value={rightFirstPercentage} onChange={e => setRightFirstPercentage(e.target.value)} className="mx-1" style={{ width: "100%" }} />
+                                    <input type="number" name="rightFirstPercentage" id="rightFirstPercentage" value={rightFirstPercentage} onChange={e => {if(e.target.value > 0) {setRightFirstPercentage(e.target.value); setLeftFirstPercentage(0-e.target.value);}}} className="mx-1" style={{ width: "100%" }} />
                                 </div>
 
                             </Row>
@@ -808,7 +860,7 @@ export default function Register() {
                                 </div>
                             </Row>
                             <Row className="d-flex my-2" >
-                                <MyTicketTable data={ticketData} myFunc={changeEachTicketInfo} />
+                                <MyTicketTable data={ticketData} myFunc={changeEachTicketInfo} myFunc1={removeEachTicketInfo}/>
                             </Row>
                         </div>
                     </div>

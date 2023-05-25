@@ -23,7 +23,7 @@ const MyPreviewFirstPage = ({ from, title, subTitle, gameTitle, startDate, ticke
                             {ticketData[index].time}
                         </div>
                         <div>
-                            {ticketData[index].rightTeam} {ticketData[index].rightFirstPercentage}
+                            {ticketData[index].rightTeam} +{ticketData[index].rightFirstPercentage}
                             &nbsp;<span style={{ border: "solid 1px black" }}> {(index * 4 + 2) < 10 ? (index * 4 + 2 + '_') : (index * 4 + 2)}</span>
                         </div>
                     </div>

@@ -3,7 +3,7 @@ import '../../assets/css/main.css'
 import { Button } from 'react-bootstrap';
 
 
-const MyTicketTable = ({ data, myFunc }) => {
+const MyTicketTable = ({ data, myFunc, myFunc1 }) => {
 	return (
 		<div>
 			<table className='table table-striped'>
@@ -30,11 +30,12 @@ const MyTicketTable = ({ data, myFunc }) => {
 										<div>{units.time}</div>
 									</td>
 									<td className='mytable'>
-										<div>{units.rightTeam}&nbsp;{units.rightFirstPercentage}</div>
+										<div>{units.rightTeam}&nbsp;+{units.rightFirstPercentage}</div>
 										<div>Under&nbsp;{units.rightSecondPercentage}</div>
 									</td>
 									<td className='mytable'>
-										<Button variant="secondary" onClick={()=>myFunc(index)}>Edit</Button>
+										<Button variant="secondary" onClick={()=>myFunc(units.index)}>Edit</Button>
+										<Button variant="secondary" onClick={()=>myFunc1(units.index)}>Delete</Button>
 									</td>
 								</tr>
 							)
