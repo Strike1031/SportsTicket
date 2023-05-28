@@ -7,7 +7,7 @@ const MyPreviewFirstPage = ({ from, title, subTitle, gameTitle, gameTitle2, star
     if (startDate == '') {
         const [day1, month1, year1] = startDate.split('/');
         const tempdate = new Date(+year1, +month1-1, +day1);
-        console.log("tempdate", tempdate);
+        // console.log("tempdate", tempdate);
         mydate = tempdate.getDate();
         day = tempdate.getDay();
         month = tempdate.getMonth();
@@ -26,7 +26,7 @@ const MyPreviewFirstPage = ({ from, title, subTitle, gameTitle, gameTitle2, star
          */
         const [day1, month1, year1] = initialDate.split('/');
         const tempdate = new Date(+year1, +month1-1, +day1);
-        console.log("tempdate", tempdate);
+        // console.log("tempdate", tempdate);
         mydate = tempdate.getDate();
         day = tempdate.getDay();
         month = tempdate.getMonth();

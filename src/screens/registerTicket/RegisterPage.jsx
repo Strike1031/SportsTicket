@@ -605,7 +605,8 @@ export default function Register() {
         setRightTeam(ticketData[realindex].rightTeam);
         setLeftSecondPercentage(ticketData[realindex].leftSecondPercentage);
         setRightSecondPercentage(ticketData[realindex].rightSecondPercentage);
-        setStartTime(tConvertReverse(ticketData[realindex].time));//tConvert(ticketData[index].time)
+        console.log('time', ticketData[realindex].time);
+        // setStartTime(tConvert(ticketData[realindex].time));// tConvertReverse(ticketData[realindex].time)
         setStartDate(ticketData[realindex].day);
         if (realindex >= 9) {
             console.log('realindex', realindex);
@@ -692,7 +693,7 @@ export default function Register() {
 
                 doc.addImage(image1, 'JPEG', marginX1, marginY1, canvasWidth1, canvasHeight1);
                 // doc.output('dataurlnewwindow');
-                doc.save("test.pdf");
+                doc.save("result.pdf");
             });
 
 
@@ -716,7 +717,7 @@ export default function Register() {
             // for (let i = pageCount-1; i > 1; i--) {
             //     pdf.deletePage(i);
             // }
-            pdf.save("test.pdf");
+            pdf.save("result.pdf");
         });
 
 
@@ -728,7 +729,7 @@ export default function Register() {
         if (currentIndex >= 0) {
             setTicketData((prev) => {
                 console.log("Hello");
-                prev[currentIndex] = { index: currentIndex, leftTeam: leftTeam, rightTeam: rightTeam, leftFirstPercentage: leftFirstPercentage, rightFirstPercentage: rightFirstPercentage, leftSecondPercentage: leftSecondPercentage, rightSecondPercentage: rightSecondPercentage, gameTitle: gameTitle, day: startDate, time: startTime };
+                prev[currentIndex] = { index: currentIndex, leftTeam: leftTeam, rightTeam: rightTeam, leftFirstPercentage: leftFirstPercentage, rightFirstPercentage: rightFirstPercentage, leftSecondPercentage: leftSecondPercentage, rightSecondPercentage: rightSecondPercentage, gameTitle: gameTitle, day: startDate, time: tConvert(startTime) };
                 return [...prev];
             });
         }
@@ -750,9 +751,15 @@ export default function Register() {
         temp.gameTitle = gameTitle;
         //eg: "03/10/2023";
         temp.day = (new Date(startDate).getMonth() + 1) + "/" + new Date(startDate).getDate() + "/" + new Date(startDate).getFullYear(); // const d = new Date(date).toLocaleDateString('fr-FR');
+        console.log("temp.day", startDate);
         //eg: "05:00 PM";
         temp.time = tConvert(startTime);
+        if (ticketData.length == 9)
+        {
+            SetGameTitle2(gameTitle);
+        }
         setTicketData(ticketData.concat(temp));
+       
     }
 
     const SetCurrentDay = () => {
@@ -800,13 +807,12 @@ export default function Register() {
                         <div>
                             <div>
                                 <span>Games&nbsp;&nbsp;</span>
-                                <input type="text" name="gameTitle" id="gameTitle" value={gameTitle} onChange={e => { 
-                                    if (currentIndex >= 8)
-                                    {
+                                <input type="text" name="gameTitle" id="gameTitle" value={gameTitle} onChange={e => {
+                                    
+                                    if (currentIndex >= 8) {
                                         SetGameTitle2(e.target.value);
                                     }
-                                    else
-                                    {
+                                    else {
                                         SetGameTitle(e.target.value);
                                     }
                                     SetCurrentDay();
@@ -825,7 +831,7 @@ export default function Register() {
                                     </DropdownButton>
                                 </div>
                                 <div className="col-4" style={{ marginTop: "3px", paddingLeft: "30px" }}>
-                                    <DatePicker dateFormat="dd/MM/yyyy" value={startDate} onChange={e => { const d = new Date(e).toLocaleDateString('fr-FR'); setStartDate(tConvert(d)); }} placeholderText={'dd/mm/yyyy'} showYearDropdown scrollableYearDropdown className="customDatePickerWidth" />
+                                    <DatePicker dateFormat="dd/MM/yyyy" value={startDate} onChange={e => { const d = new Date(e).toLocaleDateString('fr-FR'); setStartDate(d); }} placeholderText={'dd/mm/yyyy'} showYearDropdown scrollableYearDropdown className="customDatePickerWidth" />
                                 </div>
                                 <div className="col-4">
                                     <DropdownButton id="dropdown-item-button" title={rightTeam} value={rightTeam} style={{ textAlign: "center" }}>
@@ -850,7 +856,7 @@ export default function Register() {
                                     <input type="number" name="leftFirstPercentage" id="leftFirstPercentage" value={leftFirstPercentage} onChange={e => { if (e.target.value <= 0) { setLeftFirstPercentage(e.target.value); setRightFirstPercentage(0 - e.target.value) } }} className="mx-1" style={{ width: "100%" }} />
                                 </div>
                                 <div className="col-4">
-                                    <TimePicker onChange={e => setStartTime(e)} value={startTime} className="mx-3 customTimePickerWidth" />
+                                    <TimePicker onChange={e => { setStartTime(e); }} value={startTime} className="mx-3 customTimePickerWidth" />
                                 </div>
                                 <div className="col-4">
                                     <input type="number" name="rightFirstPercentage" id="rightFirstPercentage" value={rightFirstPercentage} onChange={e => { if (e.target.value > 0) { setRightFirstPercentage(e.target.value); setLeftFirstPercentage(0 - e.target.value); } }} className="mx-1" style={{ width: "100%" }} />
@@ -859,13 +865,13 @@ export default function Register() {
                             </Row>
                             <Row className="d-flex my-2" >
                                 <div className="col-4">
-                                    <input type="number" name="leftSecondPercentage" id="leftSecondPercentage" value={leftSecondPercentage} onChange={e => {setLeftSecondPercentage(e.target.value);setRightSecondPercentage(e.target.value);}} className="mx-1" style={{ width: "100%" }} />
+                                    <input type="number" name="leftSecondPercentage" id="leftSecondPercentage" value={leftSecondPercentage} onChange={e => { setLeftSecondPercentage(e.target.value); setRightSecondPercentage(e.target.value); }} className="mx-1" style={{ width: "100%" }} />
                                 </div>
                                 <div className="col-4">
 
                                 </div>
                                 <div className="col-4">
-                                    <input type="number" name="rightSecondPercentage" id="rightSecondPercentage" value={rightSecondPercentage} onChange={e => {setRightSecondPercentage(e.target.value);setLeftSecondPercentage(e.target.value);}} className="mx-1" style={{ width: "100%" }} />
+                                    <input type="number" name="rightSecondPercentage" id="rightSecondPercentage" value={rightSecondPercentage} onChange={e => { setRightSecondPercentage(e.target.value); setLeftSecondPercentage(e.target.value); }} className="mx-1" style={{ width: "100%" }} />
                                 </div>
                             </Row>
                             <Row className="d-flex my-2" >
