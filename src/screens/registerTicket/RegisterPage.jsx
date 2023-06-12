@@ -660,10 +660,10 @@ export default function Register() {
             const pageHeight = doc.internal.pageSize.getHeight();
             const widthRatio = pageWidth / canvas.width;
             const heightRatio = pageHeight / canvas.height;
-            const ratio = widthRatio > heightRatio ? heightRatio : widthRatio;
+            const ratio = (widthRatio > heightRatio ? heightRatio : widthRatio) * 1.6; //scale image
 
             const canvasWidth = canvas.width * ratio;
-            const canvasHeight = canvas.height * ratio;
+            const canvasHeight = canvas.height * ratio / 1.6; //height not scale
 
             const marginX = (pageWidth - canvasWidth) / 2;
             const marginY = (pageHeight - canvasHeight) / 2;
@@ -683,10 +683,10 @@ export default function Register() {
                 const pageHeight1 = doc.internal.pageSize.getHeight();
                 const widthRatio1 = pageWidth1 / canvas1.width;
                 const heightRatio1 = pageHeight1 / canvas1.height;
-                const ratio1 = widthRatio1 > heightRatio1 ? heightRatio1 : widthRatio1;
+                const ratio1 = (widthRatio1 > heightRatio1 ? heightRatio1 : widthRatio1) * 1.6 ; //scale image
 
                 const canvasWidth1 = canvas1.width * ratio1;
-                const canvasHeight1 = canvas1.height * ratio1;
+                const canvasHeight1 = canvas1.height * ratio1 / 1.6; ////height not scale
 
                 const marginX1 = (pageWidth1 - canvasWidth1) / 2;
                 const marginY1 = (pageHeight1 - canvasHeight1) / 2;

@@ -7,8 +7,9 @@ const MyPreviewSecondPage = () => {
         {/* <textarea name="Text1" cols="100" rows="30" style={{border: "none"}} value={data} onChange={e => setData(e.target.value)}>
         </textarea> */}
         <div id="fake_textarea">
-            <br/> <br/><br/> <br/><br/> <br/>
-            <h3>"BET BACK"</h3>           
+            <br/> <br/><br/><br/>
+            <h3>"BET BACK"</h3>
+            <br/><br/>          
             <div>1 PICK PAYS 1 TO 1 -  JUICE</div>
             <div>PLEASE READ OUR RULE!!!</div>
             <div>Play at your own Risk.</div>

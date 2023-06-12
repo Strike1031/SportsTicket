@@ -42,3 +42,7 @@
     height: 200px;
     overflow-y: scroll;
 }
+
+body, div, b {
+    font-size: 20px;
+}

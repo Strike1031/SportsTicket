@@ -89,7 +89,7 @@ const MyPreviewFirstPage = ({ from, title, subTitle, gameTitle, gameTitle2, star
                     </div>
                 </div>
             ))}
-            <div>______  ______  ______  ______  ______  _____  _____  _____  ______  ______    </div>
+            <div>______  ______  ______  ______  ______  _____  </div>
             <div style={{ textAlign: "center", fontSize: "18px" }}><b>ALL PICKS MUST BE BLACKED OUT</b></div>
             <table className='table mynumbertable'>
                 <tbody>
